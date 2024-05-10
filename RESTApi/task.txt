@@ -1,0 +1,16 @@
+REST API JSON
+
+GET /users - Html Document Render - Done
+GET /api/users - List all the users in JSON - Done
+
+For Dynamic Path Parameter we use ":" symbol
+GET /api/users/:id - we can pass value in url and can access through this id
+
+GET /api/users/1 - List user with Id 1 - Done
+GET /api/users/2 - List user with Id 2 - Done
+
+POST /api/users - Add user into the List - Done
+
+PATCH /api/users/1 - Edit the user with Id 1 - Done
+
+DELETE /api/users/1 - Delete the user with Id 1 - Done

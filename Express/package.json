@@ -1,0 +1,14 @@
+{
+  "name": "express",
+  "version": "1.0.0",
+  "description": "Starting of ExpressJs ",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Durgesh Dubey",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

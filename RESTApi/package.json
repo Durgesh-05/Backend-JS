@@ -1,0 +1,15 @@
+{
+  "name": "restapi",
+  "version": "1.0.0",
+  "description": "Rest Api Based Project",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "author": "Durgesh Dubey",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "nodemon": "^3.1.0"
+  }
+}

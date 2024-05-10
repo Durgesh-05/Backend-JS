@@ -1,0 +1,19 @@
+{
+  "name": "short-url",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "In this we are going to create a short url for Original url",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "author": "Durgesh Dubey",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "mongoose": "^8.3.4",
+    "nodemon": "^3.1.0",
+    "shortid": "^2.2.16"
+  }
+}

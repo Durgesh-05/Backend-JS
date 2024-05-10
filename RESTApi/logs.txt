@@ -1,0 +1,15 @@
+
+6/5/2024 : GET /api/users
+6/5/2024 : GET /api/users/1002
+6/5/2024 : GET /api/users/1002
+6/5/2024 : GET /api/users/1001
+6/5/2024 : GET /api/users/1001
+6/5/2024 : GET /api/users/1001
+6/5/2024 : GET /api/users/1001
+6/5/2024 : GET /api/users/1001
+6/5/2024 : GET /api/users/1001
+6/5/2024 : GET /api/users/1001
+6/5/2024 : GET /api/users/1001
+6/5/2024 : POST /api/users
+6/5/2024 : POST /api/users
+6/5/2024 : POST /api/users
