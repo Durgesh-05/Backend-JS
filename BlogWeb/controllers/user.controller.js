@@ -34,14 +34,14 @@ async function handleUserSignup(req, res) {
       password,
     });
     res.render("signin");
-    return res.status(201).json({
-      message: "User Created Successfully",
-      user: {
-        _id: user._id,
-        email,
-        role: user.role,
-      },
-    });
+    // return res.status(201).json({
+    //   message: "User Created Successfully",
+    //   user: {
+    //     _id: user._id,
+    //     email,
+    //     role: user.role,
+    //   },
+    // });
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
     console.log("Internal Error: ", error);
@@ -83,9 +83,9 @@ async function handleUserSignin(req, res) {
     };
     res.cookie("accessToken", accessToken, cookieOption);
     res.render("homepage");
-    return res
-      .status(200)
-      .json({ msg: "User Logged in Successfully", access_token: accessToken });
+    // return res
+    //   .status(200)
+    //   .json({ msg: "User Logged in Successfully", access_token: accessToken });
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
     console.log("Internal Server Error: ", error);
