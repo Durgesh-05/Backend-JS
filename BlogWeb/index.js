@@ -2,6 +2,8 @@ import path from "path";
 import dotenv from "dotenv";
 import { connectMongoDB } from "./connection.js";
 import userRoute from "./routes/user.route.js";
+import blogRoute from "./routes/blog.route.js";
+import { validateAccessToken } from "./middlewares/auth.js";
 import app from "./app.js";
 dotenv.config({
   path: "./env",
@@ -19,8 +21,11 @@ connectMongoDB(`${process.env.MONGO_URI}/blog-website`)
   })
   .catch((err) => console.log(`MongoDB connection failed! Error: ${err}`));
 
-app.get("/", (req, res) => {
-  res.render("homepage");
+app.get("/", validateAccessToken(), (req, res) => {
+  res.render("homepage", {
+    user: req.user,
+  });
 });
 
 app.use("/api/v1/user", userRoute);
+app.use("/api/v1/blog", validateAccessToken(), blogRoute);

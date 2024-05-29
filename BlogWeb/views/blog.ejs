@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("./partials/head") %>
+    <title>Create Blog</title>
+  </head>
+  <body>
+    <%- include("./partials/nav") %>
+    <div class="d-flex justify-content-center align-items-center mt-5">
+      <div class="card p-4" style="max-width: 1000px; width: 100%">
+        <form enctype="multipart/form-data" method="POST">
+          <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input
+              type="text"
+              class="form-control"
+              id="title"
+              name="title"
+              aria-describedby="titleHelp"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="content" class="form-label">Blog - Content</label>
+            <textarea
+              class="form-control"
+              name="content"
+              id="content"
+              rows="8"
+            ></textarea>
+          </div>
+          <div class="input-group mb-3">
+            <input
+              type="file"
+              class="form-control"
+              id="inputGroupFile02"
+              name="coverImage"
+            />
+            <label class="input-group-text" for="inputGroupFile02"
+              >Upload</label
+            >
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+    <%- include("./partials/script") %>
+  </body>
+</html>
