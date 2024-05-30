@@ -1,4 +1,5 @@
 import { Blog } from "../models/blog.model.js";
+import { Comment } from "../models/comment.model.js";
 function renderBlogPage(req, res) {
   res.render("blog", {
     user: req.user,
@@ -19,11 +20,39 @@ async function handleBlogPost(req, res) {
 }
 
 async function renderBlogPostPage(req, res) {
-  const blog = await Blog.findById(req.params.id);
-  return res.render("blogpost", {
-    user: req.user,
-    blog,
-  });
+  try {
+    const blog = await Blog.findById(req.params.id).populate("author");
+    const comments = await Comment.find({ blogId: req.params.id }).populate(
+      "createdBy"
+    );
+
+    return res.render("blogpost", {
+      user: req.user,
+      blog,
+      comments,
+    });
+  } catch (error) {
+    console.log("Internal Server Error: ", error);
+  }
 }
 
-export { renderBlogPage, handleBlogPost, renderBlogPostPage };
+async function handleUserComment(req, res) {
+  await Comment.create({
+    content: req.body.content,
+    blogId: req.params.blogId,
+    createdBy: req.user._id,
+  });
+
+  await Blog.updateOne(
+    { _id: req.params.blogId },
+    { $inc: { noOfComments: 1 } }
+  );
+  return res.redirect(`/api/v1/blog/${req.params.blogId}`);
+}
+
+export {
+  renderBlogPage,
+  handleBlogPost,
+  renderBlogPostPage,
+  handleUserComment,
+};

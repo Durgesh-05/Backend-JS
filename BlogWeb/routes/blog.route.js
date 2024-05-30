@@ -3,6 +3,7 @@ import {
   renderBlogPage,
   handleBlogPost,
   renderBlogPostPage,
+  handleUserComment,
 } from "../controllers/blog.controller.js";
 import { upload } from "../services/multer.js";
 const router = Router();
@@ -13,5 +14,6 @@ router
   .post(upload.single("coverImage"), handleBlogPost);
 
 router.get("/:id", renderBlogPostPage);
+router.post("/comment/:blogId", handleUserComment);
 
 export default router;

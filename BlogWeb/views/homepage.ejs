@@ -5,7 +5,7 @@
     <title>Blog Website</title>
   </head>
   <body>
-    <%- include("./partials/nav") %> <% if (locals.user) { %>
+    <%- include("./partials/nav") %>
     <div class="container">
       <div class="row row-cols-4">
         <% blogs.forEach(blog => { %>
@@ -29,6 +29,6 @@
         <% }) %>
       </div>
     </div>
-    <% } %> <%- include("./partials/script") %>
+    <%- include("./partials/script") %>
   </body>
 </html>

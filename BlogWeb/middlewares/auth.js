@@ -9,8 +9,9 @@ function validateAccessToken() {
       next();
     } catch (error) {
       console.log(error);
-      if (error.name == "TokenExpiredError") {
-        return res.render("homepage", {
+      if (error.name === "TokenExpiredError") {
+        res.clearCookie("accessToken");
+        return res.render("signin", {
           message: "Token Expired",
         });
       } else {

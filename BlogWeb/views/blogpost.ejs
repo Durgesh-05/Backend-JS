@@ -26,6 +26,46 @@
           <pre><%= locals.blog.content %></pre>
         </div>
       </div>
+      <p class="mt-4 fw-bold fs-4 fst-italic">
+        Posted By: <%= blog.author.fullName %>
+      </p>
+    </div>
+
+    <div class="container mt-4">
+      <div>
+        <% if (locals.user) { %>
+        <form
+          action="/api/v1/blog/comment/<%= blog._id %>"
+          method="POST"
+          class="input-group mb-3"
+        >
+          <input
+            type="text"
+            class="form-control"
+            name="content"
+            placeholder="Add Comments"
+            aria-describedby="button-addon2"
+          />
+          <button class="btn btn-primary" type="submit" id="button-addon2">
+            Post
+          </button>
+        </form>
+        <% } %>
+      </div>
+      <p class="mt-2 fw-bold fs-5">Comments (<%= comments.length %>)</p>
+      <% comments.forEach(comment => { %>
+      <div class="container mt-4">
+        <div class="card mb-5">
+          <div class="card-body">
+            <p class="card-text fw-medium fs-5"><%= comment.content %></p>
+            <p class="card-title">- <%= comment.createdBy.fullName %></p>
+            <h6 class="card-subtitle mb-2 text-muted">
+              <%= comment.createdAt %>
+            </h6>
+          </div>
+        </div>
+      </div>
+      <% }) %>
     </div>
     <%- include("./partials/script") %>
   </body>
