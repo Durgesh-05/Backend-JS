@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { connectMongoDB } from "./connection.js";
 import userRoute from "./routes/user.route.js";
 import blogRoute from "./routes/blog.route.js";
+import { Blog } from "./models/blog.model.js";
 import app from "./app.js";
 dotenv.config({
   path: "./env",
@@ -20,9 +21,11 @@ connectMongoDB(`${process.env.MONGO_URI}/blog-website`)
   })
   .catch((err) => console.log(`MongoDB connection failed! Error: ${err}`));
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
+  const allBlogs = await Blog.find({});
   res.render("homepage", {
     user: req.user,
+    blogs: allBlogs,
   });
 });
 

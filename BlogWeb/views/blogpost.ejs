@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("./partials/head") %>
+    <title>Blog</title>
+    <style>
+      pre {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        overflow: hidden;
+        max-width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <%- include("./partials/nav") %>
+    <div class="container">
+      <div class="col">
+        <div class="row mt-4 text-center">
+          <h1><%= locals.blog.title %></h1>
+        </div>
+        <div class="row mt-3">
+          <img src="<%= locals.blog.coverImageURL %>" alt="" width="900px" />
+        </div>
+        <div class="row mt-4 fw-medium fs-4">
+          <pre><%= locals.blog.content %></pre>
+        </div>
+      </div>
+    </div>
+    <%- include("./partials/script") %>
+  </body>
+</html>

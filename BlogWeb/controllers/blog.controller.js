@@ -1,11 +1,29 @@
+import { Blog } from "../models/blog.model.js";
 function renderBlogPage(req, res) {
   res.render("blog", {
     user: req.user,
   });
 }
 
-function handleBlogPost(req, res) {
-  return res.json({ msg: "hello" });
+async function handleBlogPost(req, res) {
+  const { title, content } = req.body;
+  const { filename } = req.file;
+  await Blog.create({
+    title: title,
+    content: content,
+    coverImageURL: `/uploads/${filename}`,
+    author: req.user._id,
+  });
+
+  res.redirect("/");
 }
 
-export { renderBlogPage, handleBlogPost };
+async function renderBlogPostPage(req, res) {
+  const blog = await Blog.findById(req.params.id);
+  return res.render("blogpost", {
+    user: req.user,
+    blog,
+  });
+}
+
+export { renderBlogPage, handleBlogPost, renderBlogPostPage };
