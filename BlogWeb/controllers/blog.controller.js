@@ -1,5 +1,6 @@
 import { Blog } from "../models/blog.model.js";
 import { Comment } from "../models/comment.model.js";
+import { Like } from "../models/like.model.js";
 function renderBlogPage(req, res) {
   res.render("blog", {
     user: req.user,
@@ -50,9 +51,20 @@ async function handleUserComment(req, res) {
   return res.redirect(`/api/v1/blog/${req.params.blogId}`);
 }
 
+async function handleUserLike(req, res) {
+  await Like.create({
+    blogId: req.params.blogId,
+    createdBy: req.user._id,
+  });
+
+  await Blog.updateOne({ _id: req.params.blogId }, { $inc: { noOfLikes: 1 } });
+  return res.redirect(`/api/v1/blog/${req.params.blogId}`);
+}
+
 export {
   renderBlogPage,
   handleBlogPost,
   renderBlogPostPage,
   handleUserComment,
+  handleUserLike,
 };

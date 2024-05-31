@@ -3,7 +3,7 @@
   data-bs-theme="dark"
 >
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">BlogiFy</a>
+    <a class="navbar-brand" href="/">BlogiFy</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -37,6 +37,13 @@
             <%= locals.user.name %>
           </a>
           <ul class="dropdown-menu">
+            <li>
+              <a
+                class="dropdown-item"
+                href="/api/v1/profile/<%= locals.user._id %>"
+                >Profile</a
+              >
+            </li>
             <li>
               <a class="dropdown-item" href="/api/v1/user/logout">logout</a>
             </li>

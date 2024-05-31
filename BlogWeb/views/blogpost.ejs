@@ -2,6 +2,11 @@
 <html lang="en">
   <head>
     <%- include("./partials/head") %>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      rel="stylesheet"
+    />
+
     <title>Blog</title>
     <style>
       pre {
@@ -29,6 +34,38 @@
       <p class="mt-4 fw-bold fs-4 fst-italic">
         Posted By: <%= blog.author.fullName %>
       </p>
+      <% if (locals.user) { %>
+      <div class="row">
+        <form
+          action="/api/v1/blog/like/<%= blog._id %>"
+          method="POST"
+          class="d-flex align-items-center me-2"
+        >
+          <button type="submit" class="btn btn-primary" style="width: auto">
+            <i class="fas fa-thumbs-up me-1" style="font-size: 20px"></i>
+            <span><%= blog.noOfLikes %></span>
+          </button>
+        </form>
+      </div>
+      <% } else { %>
+      <div class="row">
+        <form
+          action="/api/v1/blog/like/<%= blog._id %>"
+          method="POST"
+          class="d-flex align-items-center me-2"
+        >
+          <button
+            type="submit"
+            class="btn btn-primary"
+            style="width: auto"
+            disabled
+          >
+            <i class="fas fa-thumbs-up me-1" style="font-size: 20px"></i>
+            <span><%= blog.noOfLikes %></span>
+          </button>
+        </form>
+      </div>
+      <% }%> %>
     </div>
 
     <div class="container mt-4">
@@ -58,8 +95,16 @@
         <div class="card mb-5">
           <div class="card-body">
             <p class="card-text fw-medium fs-5"><%= comment.content %></p>
-            <p class="card-title">- <%= comment.createdBy.fullName %></p>
-            <h6 class="card-subtitle mb-2 text-muted">
+            <div class="d-flex align-items-center">
+              <img
+                src="<%= comment.createdBy.profileImageUrl %>"
+                alt="Profile Image"
+                class="rounded-circle me-2"
+                style="width: 40px; height: 40px; object-fit: cover"
+              />
+              <p class="card-title">- <%= comment.createdBy.fullName %></p>
+            </div>
+            <h6 class="card-subtitle mb-2 mt-2 text-muted">
               <%= comment.createdAt %>
             </h6>
           </div>

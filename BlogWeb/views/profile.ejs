@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("./partials/head") %>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <title>Profile</title>
+  </head>
+  <body>
+    <%- include("./partials/nav") %>
+    <div class="container mt-4">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="row row-cols-2 g-4">
+            <% blogs.forEach(blog => { %>
+            <div class="col">
+              <div class="card h-100">
+                <div class="card-header position-relative">
+                  <div class="dropdown position-absolute top-0 end-0 mt-2 me-2">
+                    <i
+                      class="fas fa-ellipsis-h"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                      style="cursor: pointer; color: darkgrey"
+                    ></i>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                      <li>
+                        <form
+                          action="/api/v1/profile/<%= locals.user._id %>/<%= blog._id %>/delete"
+                          method="POST"
+                          style="display: inline"
+                        >
+                          <button
+                            type="submit"
+                            class="dropdown-item"
+                            onclick="return confirm('Are you sure you want to delete this blog post?');"
+                          >
+                            Delete
+                          </button>
+                        </form>
+                      </li>
+                    </ul>
+                  </div>
+                  <img
+                    src="<%= blog.coverImageURL %>"
+                    class="card-img-top"
+                    alt=""
+                  />
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title"><%= blog.title %></h5>
+                  <a href="/api/v1/blog/<%= blog._id %>" class="btn btn-primary"
+                    >Read</a
+                  >
+                </div>
+              </div>
+            </div>
+            <% }) %>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <form
+                id="profileForm"
+                enctype="multipart/form-data"
+                action="/api/v1/profile/<%= locals.user._id %>/edit"
+                method="POST"
+              >
+                <div class="mb-3">
+                  <img
+                    src="<%= userData.profileImageUrl %>"
+                    alt="Profile Image"
+                    class="rounded-circle mx-auto d-block mb-3"
+                    style="width: 100px; height: 100px; object-fit: cover"
+                  />
+                  <label for="profileImage" class="form-label"
+                    >Upload New Image</label
+                  >
+                  <input
+                    type="file"
+                    class="form-control"
+                    id="profileImage"
+                    name="profileImage"
+                    disabled
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="name" class="form-label">Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    name="fullName"
+                    value="<%= userData.fullName %>"
+                    disabled
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label for="interest" class="form-label">Interest</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="interest"
+                    name="interest"
+                    value="<%= userData.interest %>"
+                    disabled
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="blogCount" class="form-label"
+                    >Number of Blogs Written</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="blogCount"
+                    name="blogCount"
+                    value="<%= blogs.length %>"
+                    readonly
+                    disabled
+                  />
+                </div>
+                <button
+                  type="button"
+                  id="editButton"
+                  class="btn btn-primary w-100"
+                >
+                  Edit
+                </button>
+                <button
+                  type="submit"
+                  id="submitButton"
+                  class="btn btn-primary w-100 d-none"
+                >
+                  Submit
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("editButton")
+        .addEventListener("click", function () {
+          let form = document.getElementById("profileForm");
+          let inputs = form.getElementsByTagName("input");
+          for (let i = 0; i < inputs.length - 1; i++) {
+            inputs[i].disabled = false;
+          }
+          document.getElementById("editButton").classList.add("d-none");
+          document.getElementById("submitButton").classList.remove("d-none");
+        });
+    </script>
+    <%- include("./partials/script") %>
+  </body>
+</html>
