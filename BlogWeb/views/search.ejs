@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("./partials/head") %>
+    <title>Search</title>
+  </head>
+  <body>
+    <%- include("./partials/nav") %>
+    <div class="container">
+      <div class="row row-cols-4">
+        <% blogs.forEach(blog => { %>
+        <div class="col">
+          <div class="card col m-5" style="width: 18rem">
+            <div class="border border-secondary-subtle">
+              <img
+                src="<%= blog.coverImageURL %>"
+                class="card-img-top"
+                alt=""
+              />
+            </div>
+            <div class="card-body">
+              <p class="card-title fw-semibold"><%= blog.title %></p>
+              <a href="/api/v1/blog/<%= blog._id %>" class="btn btn-primary"
+                >Read</a
+              >
+            </div>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+    <%- include("./partials/script") %>
+  </body>
+</html>

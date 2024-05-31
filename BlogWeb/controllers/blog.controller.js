@@ -10,6 +10,7 @@ function renderBlogPage(req, res) {
 async function handleBlogPost(req, res) {
   const { title, content } = req.body;
   const { filename } = req.file;
+
   await Blog.create({
     title: title,
     content: content,
@@ -52,6 +53,11 @@ async function handleUserComment(req, res) {
 }
 
 async function handleUserLike(req, res) {
+  const result = await Like.find({
+    blogId: req.params.blogId,
+    createdBy: req.user._id,
+  });
+  if (result) return res.redirect(`/api/v1/blog/${req.params.blogId}`);
   await Like.create({
     blogId: req.params.blogId,
     createdBy: req.user._id,

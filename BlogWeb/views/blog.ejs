@@ -3,6 +3,7 @@
   <head>
     <%- include("./partials/head") %>
     <title>Create Blog</title>
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
   </head>
   <body>
     <%- include("./partials/nav") %>
@@ -17,6 +18,7 @@
               id="title"
               name="title"
               aria-describedby="titleHelp"
+              required
             />
           </div>
           <div class="mb-3">
@@ -24,9 +26,11 @@
             <textarea
               class="form-control"
               name="content"
-              id="content"
+              id="editor"
               rows="8"
-            ></textarea>
+              required
+            >
+            </textarea>
           </div>
           <div class="input-group mb-3">
             <input
@@ -44,5 +48,12 @@
       </div>
     </div>
     <%- include("./partials/script") %>
+    <script>
+      ClassicEditor.create(document.querySelector("#editor"), {}).catch(
+        (error) => {
+          console.error(error);
+        }
+      );
+    </script>
   </body>
 </html>

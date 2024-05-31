@@ -4,6 +4,7 @@ import { connectMongoDB } from "./connection.js";
 import userRoute from "./routes/user.route.js";
 import blogRoute from "./routes/blog.route.js";
 import profileRoute from "./routes/profile.route.js";
+import searchRoute from "./routes/search.route.js";
 import { Blog } from "./models/blog.model.js";
 import app from "./app.js";
 dotenv.config({
@@ -33,3 +34,4 @@ app.get("/", async (req, res) => {
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/blog", blogRoute);
 app.use("/api/v1/profile", profileRoute);
+app.use("/api/v1/search", searchRoute);

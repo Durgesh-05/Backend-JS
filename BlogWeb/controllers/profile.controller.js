@@ -13,9 +13,8 @@ async function renderUserProfile(req, res) {
 }
 
 async function handleDeleteBlogFromProfile(req, res) {
-  console.log(req.params);
-  console.log(req.params.blogId);
   await Blog.deleteOne({ _id: req.params.blogId });
+  res.redirect(`/api/v1/profile/${req.user._id}`);
 }
 
 async function handleEditUserProfile(req, res) {

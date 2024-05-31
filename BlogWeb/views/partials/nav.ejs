@@ -58,11 +58,12 @@
         </li>
         <% }%>
       </ul>
-      <form class="d-flex" role="search">
+      <form class="d-flex" action="/api/v1/search" method="POST">
         <input
           class="form-control me-2"
-          type="search"
+          type="text"
           placeholder="Search"
+          name="search"
           aria-label="Search"
         />
         <button class="btn btn-outline-success" type="submit">Search</button>
