@@ -11,7 +11,7 @@ function validateAccessToken() {
       console.log(error);
       if (error.name === "TokenExpiredError") {
         res.clearCookie("accessToken");
-        return res.render("signin", {
+        return res.render("homepage", {
           message: "Token Expired",
         });
       } else {
