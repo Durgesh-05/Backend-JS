@@ -1,6 +1,8 @@
 import { User } from "../models/user.model.js";
+import { Token } from "../models/emailToken.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { Transporter } from "../services/mail.js";
 
 function generateAccessToken(_id, firstName) {
   return jwt.sign(
@@ -79,14 +81,85 @@ async function handleUserRegister(req, res) {
     email,
     password: hashedPassword,
   });
+
+  if (user) {
+    const emailToken = await bcrypt.hash(user._id.toString(), 10);
+    const token = await Token.create({
+      userId: user._id,
+      emailToken,
+    });
+    if (token) {
+      const mailOption = {
+        from: `${process.env.USER}`,
+        to: email,
+        subject: `Account Verification Link`,
+        text: `
+        Hello, ${firstName} This is the email for your verification
+        Click on this link to verify
+        ${process.env.LINK}/${user._id}/${emailToken}
+        `,
+      };
+      await Transporter.sendMail(mailOption);
+    }
+  } else {
+    return res.status(400).json({
+      msg: "Token not created",
+    });
+  }
   return res.status(201).json({
-    msg: "User Registered!!",
+    msg: "User Registered!! Verify your Email",
     userDetail: {
       _id: user._id,
       firstName: user.firstName,
       lastName: user.lastName,
     },
   });
+}
+
+async function handleEmailVerification(req, res) {
+  try {
+    const emailToken = req.params.token;
+    const userToken = await Token.findOne({
+      emailToken,
+    });
+    if (!userToken) {
+      return res.status(400).json({
+        msg: "Invalid Verification Link",
+      });
+    }
+    const user = await User.findById({ _id: req.params.userId });
+    if (!user) {
+      return res.status(404).json({
+        msg: "User not found for this link please register!",
+      });
+    }
+    console.log(user.isVerified);
+    if (user.isVerified === "Yes") {
+      return res.status(200).json({
+        msg: "Account has already verified Please Login!!",
+      });
+    } else {
+      const updated = await User.findByIdAndUpdate(
+        { _id: user._id },
+        { isVerified: "Yes" }
+      );
+      console.log(updated);
+      if (!updated) {
+        return res.status(500).json({
+          msg: "Internal Server Error",
+        });
+      } else {
+        return res.status(200).json({
+          msg: "Email Verified SuccessFully",
+        });
+      }
+    }
+  } catch (error) {
+    console.log("Email Verification Error ", error);
+    return res.status(500).json({
+      msg: "Internal Server Error",
+    });
+  }
 }
 
 async function handleUserLogin(req, res) {
@@ -100,6 +173,10 @@ async function handleUserLogin(req, res) {
   //Check if email exist or not
   const user = await User.findOne({ email });
   if (!user) return res.status(401).json({ msg: "Invalid User Credentials!!" });
+  if (user.isVerified === "No")
+    return res.status(401).json({
+      msg: "Email Verification Pending",
+    });
 
   //check if password exist or not
   const validPassword = await bcrypt.compare(password, user.password);
@@ -120,4 +197,9 @@ async function handleUserLogin(req, res) {
     .json({ msg: "User Logged In", access_token: accessToken });
 }
 
-export { handleUserRegister, handleUserLogin, handleCreateNewAccessToken };
+export {
+  handleUserRegister,
+  handleUserLogin,
+  handleCreateNewAccessToken,
+  handleEmailVerification,
+};

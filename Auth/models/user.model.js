@@ -20,6 +20,11 @@ const userSchema = new mongoose.Schema(
       required: true,
       minLength: 8,
     },
+    isVerified: {
+      type: String,
+      enum: ["Yes", "No"],
+      default: "No",
+    },
   },
   { timestamps: true }
 );
